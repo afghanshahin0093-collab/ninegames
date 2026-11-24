@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NINE GAMES — Discover Your Next Android Game</title>
+<meta name="description" content="Explore Android games, new releases, offline adventures, racing, action and more at NINE GAMES.">
+<meta name="keywords" content="Android games, game downloads, racing games, offline games, action games">
+<meta property="og:title" content="NINE GAMES — Discover Your Next Game">
+<meta property="og:description" content="Explore Android games, new releases and gaming adventures.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://your-domain.example/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://your-domain.example/">
+<link rel="stylesheet" href="style.css">
+<script defer src="data.js"></script>
+<script defer src="main.js"></script>
+
+<style id="two-games-per-row">
+/* Keep the existing design, but show exactly two game cards in each row. */
+#games .game-grid,
+#search-results.game-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+#games .game-grid .game-card,
+#search-results.game-grid .game-card {
+  min-width: 0;
+  width: 100%;
+}
+</style>
+
+
+<style id="compact-game-cards">
+/* Compact game cards: image, rating, size and View Game only. */
+#games .game-grid,
+#search-results.game-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+#games .game-card,
+#search-results .game-card {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+  padding: 12px;
+}
+#games .game-search-title,
+#search-results .game-search-title {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+#games .game-image-wrap,
+#search-results .game-image-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 10px;
+}
+#games .game-cover,
+#search-results .game-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+#games .game-compact-meta,
+#search-results .game-compact-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+#games .game-compact-meta span,
+#search-results .game-compact-meta span {
+  font-size: 13px;
+  white-space: nowrap;
+}
+#games .game-compact-bottom,
+#search-results .game-compact-bottom {
+  margin-top: 0;
+  width: 100%;
+}
+#games .game-compact-bottom .btn,
+#search-results .game-compact-bottom .btn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+</style>
+
+
+<style id="modern-search-bar">
+/* Modern, responsive search bar; keeps the site's existing color palette. */
+.hero-search {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 620px !important;
+  margin: 22px auto 0 !important;
+  padding: 7px !important;
+  background: rgba(255,255,255,.07) !important;
+  border: 1px solid rgba(255,255,255,.16) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 26px rgba(0,0,0,.18) !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(12px);
+}
+.hero-search #game-search {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 48px !important;
+  padding: 0 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  font-size: 15px !important;
+}
+.hero-search #game-search::placeholder {
+  color: currentColor;
+  opacity: .58;
+}
+.hero-search #game-search:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.hero-search #game-search-button {
+  flex: 0 0 auto !important;
+  min-width: 104px !important;
+  height: 46px !important;
+  padding: 0 18px !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+@media (max-width: 420px) {
+  .hero-search { gap: 6px !important; padding: 5px !important; border-radius: 13px !important; }
+  .hero-search #game-search { height: 44px !important; padding: 0 9px !important; font-size: 14px !important; }
+  .hero-search #game-search-button { min-width: 82px !important; height: 42px !important; padding: 0 11px !important; font-size: 13px !important; }
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+<div class="wrap">
+<div class="nav">
+
+<a class="brand" href="index.html">
+<span class="brand-mark">N</span>
+NINE GAMES
+</a>
+
+<nav class="navlinks">
+<a href="index.html">Home</a>
+<a href="index.html#games">Games</a>
+<a href="index.html#categories">Categories</a>
+<a href="index.html#new">New Games</a>
+<a href="index.html#trending">Trending</a>
+</nav>
+
+<div class="navright">
+<a class="search-mini" href="index.html#search">⌕ Search</a>
+<button class="hamb" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+</div>
+
+</div>
+
+<nav class="mobile-nav">
+<a href="index.html">Home</a>
+<a href="index.html#games">Games</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms</a>
+</nav>
+
+</div>
+</header>
+
+<main>
+
+<section class="hero">
+<div class="wrap">
+<div class="hero-panel">
+
+<span class="eyebrow">Your next adventure starts here</span>
+
+<h1>
+Discover Your <span>Next Game</span>
+</h1>
+
+<p>
+Explore Android games, new releases, offline adventures, racing, action and more. Find game details, features and download information in one place.
+</p>
+
+<div class="hero-actions">
+
+<a class="btn btn-primary" href="#games">
+Explore Games <span>→</span>
+</a>
+
+
+
+</div>
+
+<form class="hero-search" id="search" onsubmit="return false">
+
+<input id="game-search" type="search" placeholder="Search games..." aria-label="Search games">
+
+<button class="btn btn-primary" type="button" id="game-search-button">Search</button>
+
+</form>
+
+<div id="search-results" class="game-grid" hidden style="margin-top:18px"></div>
+
+</div>
+</div>
+</section>
+
+<section class="section" id="games">
+<div class="wrap">
+
+<div class="section-head">
+
+<div>
+<h2>Featured Games</h2>
+<p>Handpicked worlds to jump into next.</p>
+</div>
+
+<a class="text-link" href="#popular">
+View all games ↗
+</a>
+
+</div>
+
+<div class="game-grid">
+
+<article class="game-card">
+  <h3 class="game-search-title">Grand Theft Auto V</h3>
+  <div class="game-image-wrap"><img src="gtav.png" class="game-cover" alt="Grand Theft Auto V"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="grand-theft-auto-v.html">View Game ↗</a>
+  </div>
+</article>
+
+<article class="game-card">
+  <h3 class="game-search-title">Forza Horizon 5</h3>
+  <div class="game-image-wrap"><img src="forza5.png" class="game-cover" alt="Forza Horizon 5"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="forza-horizon-5.html">View Game ↗</a>
+  </div>
+</article>
+
+<article class="game-card">
+  <h3 class="game-search-title">Forza Horizon 6</h3>
+  <div class="game-image-wrap"><img src="forza6.png" class="game-cover" alt="Forza Horizon 6"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">300 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="forza-horizon-6.html">View Game ↗</a>
+  </div>
+</article>
+
+ <article class="game-card">
+  <h3 class="game-search-title">BeamNG.drive</h3>
+  <div class="game-image-wrap"><img src="beamng.png" class="game-cover" alt="BeamNG.drive"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="beamng-drive.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Assetto Corsa Competizione</h3>
+  <div class="game-image-wrap"><img src="assettocorsa.png" class="game-cover" alt="Assetto Corsa Competizione"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="assetto-corsa-competizione.html">View Game ↗</a>
+  </div>
+</article> <article class="game-card">
+  <h3 class="game-search-title">Red Dead Redemption 2</h3>
+  <div class="game-image-wrap"><img src="reddeadredemption2.png" class="game-cover" alt="Red Dead Redemption 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.5</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="red-dead-redemption-2.html">View Game ↗</a>
+  </div>
+</article> <article class="game-card">
+  <h3 class="game-search-title">Watch Dogs 2</h3>
+  <div class="game-image-wrap"><img src="watchdogs2.png" class="game-cover" alt="Watch Dogs 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="watch-dogs-2.html">View Game ↗</a>
+  </div>
+</article> <article class="game-card">
+  <h3 class="game-search-title">GTA VI</h3>
+  <div class="game-image-wrap"><img src="gtavi.png" class="game-cover" alt="GTA VI"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="gta-vi.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Need for Speed Unbound</h3>
+  <div class="game-image-wrap"><img src="needforspeedunbound.png" class="game-cover" alt="Need for Speed Unbound"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="need-for-speed-unbound.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Assetto Corsa</h3>
+  <div class="game-image-wrap"><img src="assettocorsa.png" class="game-cover" alt="Assetto Corsa"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="assetto-corsa.html">View Game ↗</a>
+  </div>
+</article> <article class="game-card">
+  <h3 class="game-search-title">Battlefield V</h3>
+  <div class="game-image-wrap"><img src="battlefieldv.png" class="game-cover" alt="Battlefield V"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="battlefield-v.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">CarX Street Mod</h3>
+  <div class="game-image-wrap"><img src="carxstreet.png" class="game-cover" alt="CarX Street Mod"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="carx-street.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Watch Dogs</h3>
+  <div class="game-image-wrap"><img src="watchdogs.png" class="game-cover" alt="Watch Dogs"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.2</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="watch-dogs.html">View Game ↗</a>
+  </div>
+</article> 
+  
+  <article class="game-card">
+  <h3 class="game-search-title">Mafia: Definitive Edition</h3>
+  <div class="game-image-wrap"><img src="mafiaDefinitiveEditio.png" class="game-cover" alt="Mafia: Definitive Edition"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="mafia-definitive-edition.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Mafia II: Definitive Edition</h3>
+  <div class="game-image-wrap"><img src="mafia2definitive.png" class="game-cover" alt="Mafia II: Definitive Edition"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.2</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="mafia-ii-definitive-edition.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Sleeping Dogs</h3>
+  <div class="game-image-wrap"><img src="sleepingdogs.png" class="game-cover" alt="Sleeping Dogs"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="sleeping-dogs.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Just Cause 3</h3>
+  <div class="game-image-wrap"><img src="justcause3.png" class="game-cover" alt="Just Cause 3"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.4</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="just-cause-3.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Days Gone</h3>
+  <div class="game-image-wrap"><img src="daysgone.png" class="game-cover" alt="Days Gone"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="days-gone.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Dying Light</h3>
+  <div class="game-image-wrap"><img src="dyinglight.png" class="game-cover" alt="Dying Light"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="dying-light.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Pubg Mobile</h3>
+  <div class="game-image-wrap"><img src="pubgmobile.png" class="game-cover" alt="Pubg Mobile"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="pubg-mobile.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Battlefield 2042</h3>
+  <div class="game-image-wrap"><img src="battlefield2042.png" class="game-cover" alt="Battlefield 2042"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.2</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="battlefield-2042.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Halo Infinite</h3>
+  <div class="game-image-wrap"><img src="Haloinfinite.png" class="game-cover" alt="Halo Infinite"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">600 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="halo-infinite.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">DOOM Eternal</h3>
+  <div class="game-image-wrap"><img src="DOOMEternal.png" class="game-cover" alt="DOOM Eternal"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="doom-eternal.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Titanfall 2</h3>
+  <div class="game-image-wrap"><img src="titanfall2.png" class="game-cover" alt="Titanfall 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="titanfall-2.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Ready or Not</h3>
+  <div class="game-image-wrap"><img src="readyornot.png" class="game-cover" alt="Ready or Not"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">400 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="ready-or-not.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Insurgency: Sandstorm</h3>
+  <div class="game-image-wrap"><img src="InsurgencySandstorm.png" class="game-cover" alt="Insurgency: Sandstorm"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="insurgency-sandstorm.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Forza Horizon 4</h3>
+  <div class="game-image-wrap"><img src="forza4.png" class="game-cover" alt="Forza Horizon 4"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="forza-horizon-4.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Forza Motorsport</h3>
+  <div class="game-image-wrap"><img src="forzamoter.png" class="game-cover" alt="Forza Motorsport"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="forza-motorsport.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Need for Speed Unbound</h3>
+  <div class="game-image-wrap"><img src="needforspeedunbound.png" class="game-cover" alt="Need for Speed Unbound"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="need-for-speed-unbound.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Need for Speed Heat</h3>
+  <div class="game-image-wrap"><img src="needforspeedheat.png" class="game-cover" alt="Need for Speed Heat"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="need-for-speed-heat.html">View Game ↗</a>
+  </div>
+</article> 
+    <article class="game-card">
+  <h3 class="game-search-title">Assetto Corsa Competizione</h3>
+  <div class="game-image-wrap"><img src="acc.png" class="game-cover" alt="Assetto Corsa Competizione"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="assetto-corsa-competizione.html">View Game ↗</a>
+  </div>
+</article> 
+   <article class="game-card">
+  <h3 class="game-search-title">Call of Duty II: Modern Warfare</h3>
+  <div class="game-image-wrap"><img src="codmw2.png" class="game-cover" alt="Call of Duty II: Modern Warfare"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="call-of-duty-modern-warfare-ii.html">View Game ↗</a>
+  </div>
+</article> 
+   <article class="game-card">
+  <h3 class="game-search-title">Call of Duty: Modern Warfare</h3>
+  <div class="game-image-wrap"><img src="codmodernwarfare.png" class="game-cover" alt="Call of Duty: Modern Warfare"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">5 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="call-of-duty-modern-warfare.html">View Game ↗</a>
+  </div>
+</article> 
+   <article class="game-card">
+  <h3 class="game-search-title">Resident Evil 4 Remake</h3>
+  <div class="game-image-wrap"><img src="residentevil4remake.png" class="game-cover" alt="Resident Evil 4 Remake"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.2 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="resident-evil-4-remake.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Resident Evil Village</h3>
+  <div class="game-image-wrap"><img src="residentevilvillage.png" class="game-cover" alt="Resident Evil Village"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="resident-evil-village.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Resident Evil 2 Remake</h3>
+  <div class="game-image-wrap"><img src="residentevil2remake.png" class="game-cover" alt="Resident Evil 2 Remake"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="resident-evil-2-remake.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Silent Hill 2</h3>
+  <div class="game-image-wrap"><img src="silenthill2.png" class="game-cover" alt="Silent Hill 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.2 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="silent-hill-2.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Dead Space Remake</h3>
+  <div class="game-image-wrap"><img src="deadspaceremake.png" class="game-cover" alt="Dead Space Remake"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.3 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="dead-space-remake.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">alan wake 2</h3>
+  <div class="game-image-wrap"><img src="alanwake2.png" class="game-cover" alt="alan wake 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.2 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="alan-wake-2.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Sons of the Forest</h3>
+  <div class="game-image-wrap"><img src="sonsoftheforest.png" class="game-cover" alt="Sons of the Forest"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.2 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="sons-of-the-forest.html">View Game ↗</a>
+  </div>
+</article> 
+     <article class="game-card">
+  <h3 class="game-search-title">Phasmophobia</h3>
+  <div class="game-image-wrap"><img src="Phasmophobia.png" class="game-cover" alt="Phasmophobia"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="phasmophobia.html">View Game ↗</a>
+  </div>
+</article> 
+ 
+  <article class="game-card">
+  <h3 class="game-search-title">The Forest</h3>
+  <div class="game-image-wrap"><img src="theforest.png" class="game-cover" alt="The Forest"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="the-forest.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Outlast 2</h3>
+  <div class="game-image-wrap"><img src="outlast2.png" class="game-cover" alt="Outlast 2"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="outlast-2.html">View Game ↗</a>
+  </div>
+</article> 
+  <article class="game-card">
+  <h3 class="game-search-title">Baldur's Gate 3</h3>
+  <div class="game-image-wrap"><img src="baldursgate3.png" class="game-cover" alt="Baldur&#x27;s Gate 3"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.9</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="baldur-s-gate-3.html">View Game ↗</a>
+  </div>
+</article>
+    <article class="game-card">
+  <h3 class="game-search-title">Hogwarts Legacy</h3>
+  <div class="game-image-wrap"><img src="hogwartslegacy.png" class="game-cover" alt="Hogwarts Legacy"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.9</span>
+    <span class="game-size">1.5 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="hogwarts-legacy.html">View Game ↗</a>
+  </div>
+</article>
+    <article class="game-card">
+  <h3 class="game-search-title">God of War</h3>
+  <div class="game-image-wrap"><img src="godofwar.png" class="game-cover" alt="God of War"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">550 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="god-of-war.html">View Game ↗</a>
+  </div>
+</article>
+    <article class="game-card">
+  <h3 class="game-search-title">Marvel's Spider-Man</h3>
+  <div class="game-image-wrap"><img src="marvelsspiderman.png" class="game-cover" alt="Marvel&#x27;s Spider-Man"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1.2 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="marvel-s-spider-man.html">View Game ↗</a>
+  </div>
+</article>
+    <article class="game-card">
+  <h3 class="game-search-title">Spider-Man: Miles Morales</h3>
+  <div class="game-image-wrap"><img src="milessmorales.png" class="game-cover" alt="Spider-Man: Miles Morales"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">500 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="marvel-s-spider-man-miles-morales.html">View Game ↗</a>
+  </div>
+</article>
+    <article class="game-card">
+  <h3 class="game-search-title">The Witcher 3</h3>
+  <div class="game-image-wrap"><img src="thewitcher3.png" class="game-cover" alt="The Witcher 3"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.9</span>
+    <span class="game-size">4 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="the-witcher-3-wild-hunt.html">View Game ↗</a>
+  </div>
+</article>
+   <article class="game-card">
+  <h3 class="game-search-title">Elden Ring</h3>
+  <div class="game-image-wrap"><img src="eldenring.png" class="game-cover" alt="Elden Ring"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.4</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="elden-ring.html">View Game ↗</a>
+  </div>
+</article>
+   <article class="game-card">
+  <h3 class="game-search-title">Cyberpunk 2077</h3>
+  <div class="game-image-wrap"><img src="cyberpunk2077.png" class="game-cover" alt="Cyberpunk 2077"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.8</span>
+    <span class="game-size">1 GB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="cyberpunk-2077.html">View Game ↗</a>
+  </div>
+</article>
+   <article class="game-card">
+  <h3 class="game-search-title">Assassin's Creed Valhalla</h3>
+  <div class="game-image-wrap"><img src="assassinscreedvalhalla.png" class="game-cover" alt="Assassin&#x27;s Creed Valhalla"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.7</span>
+    <span class="game-size">550 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="assassin-s-creed-valhalla.html">View Game ↗</a>
+  </div>
+</article>
+   <article class="game-card">
+  <h3 class="game-search-title">The Witcher 3</h3>
+  <div class="game-image-wrap"><img src="GhostofTsushima.png" class="game-cover" alt="The Witcher 3"></div>
+  <div class="card-meta game-compact-meta">
+    <span class="rating">★ 4.6</span>
+    <span class="game-size">300 MB</span>
+  </div>
+  <div class="card-bottom game-compact-bottom">
+    <a class="btn btn-primary small-btn" href="ghost-of-tsushima.html">View Game ↗</a>
+  </div>
+</article>
+</div>
+</div>
+</section>
+
+
+
+</main>
+
+<footer class="footer">
+
+<div class="wrap">
+
+<div class="footer-inner">
+
+<a class="brand" href="index.html">
+<span class="brand-mark">N</span>
+NINE GAMES
+</a>
+
+<nav class="footer-links">
+
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms</a>
+
+</nav>
+
+</div>
+
+<div class="copyright">
+© 2026 NINE GAMES. Game names and trademarks belong to their respective owners.
+</div>
+
+</div>
+</footer>
+
+<script>
+(function () {
+  function initNineGamesSearch() {
+    const input = document.getElementById('game-search');
+    const button = document.getElementById('game-search-button');
+    const results = document.getElementById('search-results');
+    if (!input || !results) return;
+
+    const normalize = function (value) {
+      return String(value || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+    };
+
+    // Read the original game cards after the page has finished loading.
+    const cards = Array.from(document.querySelectorAll('#games .game-card'));
+    const games = cards.map(function (card) {
+      const title = card.querySelector('h3');
+      return {
+        card: card,
+        text: normalize((title ? title.textContent : '') + ' ' + card.textContent)
+      };
+    });
+
+    function searchGames() {
+      const query = normalize(input.value);
+      results.innerHTML = '';
+
+      if (!query) {
+        results.hidden = true;
+        return;
+      }
+
+      const words = query.split(/\s+/).filter(Boolean);
+      const matches = games.filter(function (game) {
+        return words.every(function (word) {
+          return game.text.indexOf(word) !== -1;
+        });
+      });
+
+      matches.forEach(function (game) {
+        results.appendChild(game.card.cloneNode(true));
+      });
+
+      if (matches.length === 0) {
+        const message = document.createElement('p');
+        message.className = 'search-empty';
+        message.textContent = 'No games found. Try another game name.';
+        results.appendChild(message);
+      }
+
+      results.hidden = false;
+    }
+
+    input.addEventListener('input', searchGames);
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        searchGames();
+      }
+    });
+
+    if (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        searchGames();
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNineGamesSearch);
+  } else {
+    initNineGamesSearch();
+  }
+})();
+</script>
+
+</body>
+</html>
